@@ -265,7 +265,7 @@ set splitright
 " Write this in your vimrc file
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 1
-let g:ale_completion_enabled = 0
+let g:ale_completion_enabled = 1
 let g:ale_linters = {'javascript': ['eslint'], 'jsx': ['eslint'], 'Stylus': ['stylelint'], 'flow': ['eslint'], 'typescript': ['eslint', 'tsserver'], 'python': ['flake8'], 'perl': ['perl-critic']}
 " Booking.com special templates
 let g:ale_pattern_options = {
