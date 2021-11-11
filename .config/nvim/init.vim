@@ -42,8 +42,6 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-commentary.git'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
 Plugin 'vim-scripts/YankRing.vim'
 Plugin 'w0rp/ale'
 Plugin 'wavded/vim-stylus'
@@ -142,19 +140,34 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 let g:yankring_clipboard_monitor=0
 nnoremap <silent> <Leader>p :YRShow<CR>
 
-" Airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#extensions#tabline#buffer_nr_show = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme='minimalist'
-
 " JSON highlighter
 set conceallevel=0
 " Disable quote concealing in JSON files
 let g:vim_json_conceal=0
+
+" Tree sitter
+" Enable highlighting
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+    highlight = {
+        enable = true,
+        additional_vim_regex_highlighting = false,
+    },
+    indent = {
+        enable = true
+    },
+    incremental_selection = {
+        enable = true,
+        keymaps = {
+            init_selection = "gnn",
+            node_incremental = "grn",
+            scope_incremental = "grc",
+            node_decremental = "grm",
+        },
+    },
+}
+EOF
+
 
 " ======================
 " ======= Other options
