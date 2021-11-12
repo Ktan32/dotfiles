@@ -151,8 +151,8 @@ lua <<EOF
         {
           'buffers',
           show_filename_only = true,
-          show_buffer_index = true,
           show_modified_status = true,
+          mode = 2,
 
           buffers_color = {
             active = 'MoreMsg',
