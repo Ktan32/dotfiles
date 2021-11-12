@@ -31,16 +31,18 @@ Plugin 'jiangmiao/auto-pairs'
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/goyo.vim'
+Plugin 'kdheepak/tabline.nvim'
 Plugin 'matze/vim-move'
 Plugin 'mhinz/vim-grepper'
 Plugin 'mhinz/vim-startify'
-Plugin 'mxw/vim-jsx'
+Plugin 'nvim-lualine/lualine.nvim'
 Plugin 'nvim-treesitter/nvim-treesitter'
 Plugin 'othree/html5.vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-commentary.git'
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-sleuth'
 Plugin 'tpope/vim-surround'
 Plugin 'vim-scripts/YankRing.vim'
 Plugin 'w0rp/ale'
@@ -115,6 +117,64 @@ autocmd FileType * nnoremap <c-p> :GFiles<cr>
 let g:rooter_silent_chdir = 0
 let g:rooter_resolve_links = 1
 let g:rooter_patterns = ['.git', '*.sln', 'build/env.sh']
+
+" lualine.nvim
+lua <<EOF
+  require'lualine'.setup {
+    options = {
+      icons_enabled = false,
+      theme = 'auto',
+      component_separators = { left = '|', right = '|'},
+      section_separators = { left = '', right = ''},
+      disabled_filetypes = {},
+      always_divide_middle = true,
+    },
+    sections = {
+      lualine_a = {'mode'},
+      lualine_b = {'branch', 'diff'},
+      lualine_c = {'filename'},
+      lualine_x = {'encoding', 'fileformat', 'filetype'},
+      lualine_y = {},
+      lualine_z = {'location'}
+    },
+    inactive_sections = {
+      lualine_a = {},
+      lualine_b = {},
+      lualine_c = {'filename'},
+      lualine_x = {'location'},
+      lualine_y = {},
+      lualine_z = {}
+    },
+    tabline = {
+      lualine_a = {},
+      lualine_b = {
+        {
+          'buffers',
+          show_filename_only = true,
+          show_buffer_index = true,
+          show_modified_status = true,
+
+          buffers_color = {
+            active = 'MoreMsg',
+          },
+        }
+      },
+      lualine_c = {},
+      lualine_x = {},
+      lualine_y = {
+        {
+          'tabs',
+          mode = 2,
+          tabs_color = {
+            active = 'MoreMsg',
+          },
+        }
+      },
+      lualine_z = {},
+    },
+    extensions = {'nerdtree', 'fzf', 'fugitive'}
+  }
+EOF
 
 " Grepper
 nnoremap <C-f> :Grepper -tool rg<cr>
@@ -305,16 +365,6 @@ highlight ALEError ctermbg=none cterm=underline
 highlight ALEWarning ctermbg=none cterm=underline
 highlight ALEStyleError ctermfg=darkgrey
 highlight ALEStyleWarning ctermfg=darkgrey
-
-"JSX
-augroup FiletypeGroup
-    autocmd!
-    au BufNewFile,BufRead *.jsx set filetype=javascript.jsx
-augroup END
-augroup FiletypeGroup
-    autocmd!
-    au BufNewFile,BufRead *.js.flow set filetype=javascript.jsx
-augroup END
 
 " Booking perl templates
 " Company specific
