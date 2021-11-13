@@ -382,12 +382,12 @@ highlight ALEStyleWarning ctermfg=darkgrey
 " Booking perl templates
 " Company specific
 if $BOOKINGCOM
-    augroup FiletypeGroup
-        au BufNewFile,BufRead *.inc set filetype=tmpl
-    augroup END
-    augroup FiletypeGroup
-        au BufNewFile,BufRead *.tmpl set filetype=tmpl
-    augroup END
+  augroup FiletypeGroup
+    au BufNewFile,BufRead *.inc set filetype=tmpl
+  augroup END
+  augroup FiletypeGroup
+    au BufNewFile,BufRead *.tmpl set filetype=tmpl
+  augroup END
 endif
 
 " Vim node gf
@@ -400,9 +400,9 @@ set suffixesadd+=.js,.jsx
 
 " Going to English when leaving insert mode
 function! SetUsLayout()
-    if has('linux')
-        silent !gsettings set org.gnome.desktop.input-sources current 0
-    endif
+  if has('linux')
+    silent !gsettings set org.gnome.desktop.input-sources current 0
+  endif
 endfunction
 
 autocmd InsertLeave * call SetUsLayout()
