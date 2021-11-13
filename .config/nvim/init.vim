@@ -19,41 +19,43 @@ filetype plugin indent on
 set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
-Plugin 'AndrewRadev/sideways.vim'
-Plugin 'HerringtonDarkholme/yats.vim'
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'Yggdroot/indentLine'
-Plugin 'airblade/vim-rooter'
-Plugin 'chriskempson/base16-vim'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'editorconfig/editorconfig-vim'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
-Plugin 'junegunn/fzf.vim'
-Plugin 'junegunn/goyo.vim'
-Plugin 'kdheepak/tabline.nvim'
-Plugin 'matze/vim-move'
-Plugin 'mhinz/vim-grepper'
-Plugin 'mhinz/vim-startify'
-Plugin 'nvim-lualine/lualine.nvim'
-Plugin 'nvim-treesitter/nvim-treesitter'
-Plugin 'othree/html5.vim'
-Plugin 'pangloss/vim-javascript'
-Plugin 'scrooloose/nerdtree'
-Plugin 'tpope/vim-commentary.git'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-sleuth'
-Plugin 'tpope/vim-surround'
-Plugin 'vim-scripts/YankRing.vim'
-Plugin 'w0rp/ale'
-Plugin 'wavded/vim-stylus'
-Plugin 'wesQ3/vim-windowswap'
+  Plugin 'AndrewRadev/sideways.vim'
+  Plugin 'HerringtonDarkholme/yats.vim'
+  Plugin 'VundleVim/Vundle.vim'
+  Plugin 'Yggdroot/indentLine'
+  Plugin 'airblade/vim-rooter'
+  Plugin 'chriskempson/base16-vim'
+  Plugin 'christoomey/vim-tmux-navigator'
+  Plugin 'editorconfig/editorconfig-vim'
+  Plugin 'jiangmiao/auto-pairs'
+  Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all'  }
+  Plugin 'junegunn/fzf.vim'
+  Plugin 'junegunn/goyo.vim'
+  Plugin 'matze/vim-move'
+  Plugin 'mhinz/vim-grepper'
+  Plugin 'mhinz/vim-startify'
+  Plugin 'othree/html5.vim'
+  Plugin 'pangloss/vim-javascript'
+  Plugin 'scrooloose/nerdtree'
+  Plugin 'tpope/vim-commentary.git'
+  Plugin 'tpope/vim-fugitive'
+  Plugin 'tpope/vim-sleuth'
+  Plugin 'tpope/vim-surround'
+  Plugin 'vim-scripts/YankRing.vim'
+  Plugin 'w0rp/ale'
+  Plugin 'wavded/vim-stylus'
+  Plugin 'wesQ3/vim-windowswap'
 
-" Company specific
-if $BOOKINGCOM
+  " NVIM-only
+  if has('nvim')
+    Plugin 'nvim-lualine/lualine.nvim'
+    Plugin 'nvim-treesitter/nvim-treesitter'
+  endif
+
+  " Company specific
+  if $BOOKINGCOM
     Plugin 'git@gitlab.booking.com:devtools/vim-booking.git'
-endif
-
+  endif
 call vundle#end()
 
 " ======================
@@ -108,7 +110,7 @@ endif
 
 " FZF
 nnoremap <C-p> :GFiles<Cr>
-let g:fzf_layout = { 'down': '~20%', 'window': '10new' }
+let g:fzf_layout = { 'down': '~25%', 'window': '10new' }
 
 " Remap ctrlp implictly because of Yankring
 autocmd FileType * nnoremap <c-p> :GFiles<cr>
@@ -119,6 +121,7 @@ let g:rooter_resolve_links = 1
 let g:rooter_patterns = ['.git', '*.sln', 'build/env.sh']
 
 " lualine.nvim
+if has('nvim')
 lua <<EOF
   require'lualine'.setup {
     options = {
@@ -175,6 +178,7 @@ lua <<EOF
     extensions = {'nerdtree', 'fzf', 'fugitive'}
   }
 EOF
+endif
 
 " Grepper
 nnoremap <C-f> :Grepper -tool rg<cr>
@@ -207,6 +211,7 @@ let g:vim_json_conceal=0
 
 " Tree sitter
 " Enable highlighting
+if has('nvim')
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
     highlight = {
@@ -227,6 +232,7 @@ require'nvim-treesitter.configs'.setup {
     },
 }
 EOF
+endif
 
 
 " ======================
@@ -317,8 +323,8 @@ set smartcase
 
 " Working with system buffer
 if has('clipboard')
-    map <F2> "+p
-    map <F3> "+y
+  map <F2> "+p
+  map <F3> "+y
 endif
 
 " Lines
@@ -339,12 +345,20 @@ set splitright
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 1
 let g:ale_completion_enabled = 1
-let g:ale_linters = {'javascript': ['eslint'], 'jsx': ['eslint'], 'Stylus': ['stylelint'], 'flow': ['eslint'], 'typescript': ['eslint', 'tsserver'], 'python': ['flake8'], 'perl': ['perl-critic']}
-" Booking.com special templates
-let g:ale_pattern_options = {
-\   '.*\.inc$': {'ale_enabled': 0},
-\   '.*\.tmpl$': {'ale_enabled': 0},
-\}
+let g:ale_linters = {
+  \ 'javascript': ['eslint'],
+  \ 'jsx': ['eslint'],
+  \ 'typescript': ['eslint', 'tsserver'],
+  \ 'python': ['flake8'],
+  \ 'perl': ['perl-critic'],
+  \}
+if $BOOKINGCOM
+  " Booking.com special templates
+  let g:ale_pattern_options = {
+  \ '.*\.inc$': {'ale_enabled': 0},
+  \ '.*\.tmpl$': {'ale_enabled': 0},
+  \}
+endif
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = '>'
 let g:ale_sign_warning = '-'
@@ -357,7 +371,6 @@ let g:ale_hover_to_floating_preview = 1
 " Navigating errors
 nnoremap <C-k> :ALENext<CR>
 nnoremap <C-j> :ALEPrevious<CR>
-
 " Hover
 nnoremap m :ALEHover<CR>
 
