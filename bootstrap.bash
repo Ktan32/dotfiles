@@ -23,6 +23,16 @@ if grep -q ID=ubuntu /etc/os-release; then
         fi
     fi
 fi
+# CentOS dev KVM specific
+if grep -q ID=centos /etc/os-release; then
+    if whiptail --yesno "Cent OS detected. Install usual stuff?" 20 80 ;then
+        sudo yum install fuse-libs.x86_64 fuse.x86_64 ripgrep.x86_64
+    fi
+
+    mkdir -p "$HOME/.local/bin"
+    wget https://github.com/neovim/neovim/releases/download/v0.6.0/nvim.appimage --output-document="$HOME/.local/bin/nvim"
+    chmod +x "$HOME/.local/bin/nvim"
+fi
 
 # Vim
 echo -e "\nInstalling Vundle..."
@@ -52,12 +62,13 @@ else
 fi
 
 echo -e "\nSet up main symlinks..."
+mkdir -p $HOME/.config/nvim/
 ln -sf $PWD/.config/nvim/init.vim $HOME/.config/nvim/init.vim
 ln -sf $PWD/.zshrc $HOME/.zshrc
 
 mkdir -p $HOME/.config/tmux
 ln -sf $PWD/.config/tmux/tmux.conf $HOME/.config/tmux/tmux.conf
-ln -sf $PWD/.config/tmux/ilya-m.tmuxtheme $HOME/.config/ilya-m.tmuxtheme
+ln -sf $PWD/.config/tmux/ilya-m.tmuxtheme $HOME/.config/tmux/ilya-m.tmuxtheme
 
 echo -e "And copy rest of it"
 cp -r $PWD/.oh-my-zsh $HOME/
