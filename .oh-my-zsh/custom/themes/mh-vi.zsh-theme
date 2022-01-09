@@ -18,7 +18,7 @@ function my-vi_mode_prompt_info() {
     fi
 }
 
-RPROMPT='$(git_prompt_info)$(my-vi_mode_prompt_info)'
+RPROMPT='$(my-vi_mode_prompt_info)'
 
 # git theming
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[gray]%}(%{$fg_no_bold[yellow]%}%B"
